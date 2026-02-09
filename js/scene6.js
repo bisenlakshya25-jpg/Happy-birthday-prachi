@@ -13,9 +13,7 @@ ki aapko meri presence feel ho.
 I promise…
 next birthday hum saath cake cut karenge.`;
 
-  /* Typing settings */
   let tIndex = 0;
-  const typingSpeedTitle = 120; // ms
   let sceneEnded = false;
 
   /* Clear initial text */
@@ -32,24 +30,33 @@ next birthday hum saath cake cut karenge.`;
     if (tIndex < titleText.length) {
       title.textContent += titleText.charAt(tIndex);
       tIndex++;
-      setTimeout(typeTitle, typingSpeedTitle);
+      setTimeout(typeTitle, 120);
     } else {
-      setTimeout(typeBodyLines, 800);
+      setTimeout(typeBodyLineChar, 800);
     }
   }
 
-  /* ---------- TYPE BODY LINE-WISE ---------- */
+  /* ---------- TYPE BODY LINE-WISE + CHAR-WISE ---------- */
   const bodyLines = bodyText.split("\n");
   let lineIndex = 0;
+  let charIndex = 0;
 
-  function typeBodyLines() {
-    if (lineIndex < bodyLines.length) {
-      const line = bodyLines[lineIndex].trim();
-      if(line) text.innerHTML += line + "<br>";
-      lineIndex++;
-      setTimeout(typeBodyLines, 400); // delay between lines
-    } else {
+  function typeBodyLineChar() {
+    if (lineIndex >= bodyLines.length) {
       setTimeout(triggerHeartScene, 2000);
+      return;
+    }
+
+    const line = bodyLines[lineIndex];
+    if (charIndex < line.length) {
+      text.innerHTML += line.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeBodyLineChar, 45); // typing speed per char
+    } else {
+      text.innerHTML += "<br>"; // new line
+      lineIndex++;
+      charIndex = 0;
+      setTimeout(typeBodyLineChar, 200); // short pause between lines
     }
   }
 
@@ -58,7 +65,7 @@ next birthday hum saath cake cut karenge.`;
     if (sceneEnded) return;
     sceneEnded = true;
 
-    // Remove old text completely before heart scene
+    // Remove old text completely
     title.style.opacity = 0;
     text.style.opacity = 0;
 
@@ -72,10 +79,7 @@ next birthday hum saath cake cut karenge.`;
     setTimeout(() => {
       endText.style.opacity = 1;
     }, 4500);
-
-    // Final scene pause here
   }
 
-  /* ---------- START ---------- */
   typeTitle();
 })();
