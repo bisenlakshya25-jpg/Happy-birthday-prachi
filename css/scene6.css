@@ -45,6 +45,8 @@ p {
   font-size: 1.25rem;
   line-height: 1.9;
   opacity: 0;
+  white-space: pre-wrap; /* ✅ preserves line breaks from JS */
+  word-wrap: break-word; /* optional: ensures no overflow */
 }
 
 /* Heart Scene */
