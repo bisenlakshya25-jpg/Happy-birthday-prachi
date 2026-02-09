@@ -97,8 +97,8 @@
       blackout.style.opacity = 1;
       wishText.style.opacity = 1;
 
-      // End scene after short delay
-      setTimeout(endScene, 2000);
+      // Keep “Make a wish” text for 6 seconds before next scene
+      setTimeout(endScene, 6000);
     }, 2600);
   };
 
