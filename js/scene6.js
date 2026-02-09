@@ -15,14 +15,12 @@ next birthday hum saath cake cut karenge.`;
 
   /* Typing settings */
   let tIndex = 0;
-  let bIndex = 0;
   const typingSpeedTitle = 120; // ms
-  const typingSpeedBody = 45;
-  let sceneEnded = false; // 🔒 final scene flag
+  let sceneEnded = false;
 
   /* Clear initial text */
   title.textContent = "";
-  text.textContent = "";
+  text.innerHTML = "";
   title.style.opacity = 1;
   text.style.opacity = 1;
   heartScene.style.opacity = 0;
@@ -36,16 +34,20 @@ next birthday hum saath cake cut karenge.`;
       tIndex++;
       setTimeout(typeTitle, typingSpeedTitle);
     } else {
-      setTimeout(typeBody, 800); // pause after title
+      setTimeout(typeBodyLines, 800);
     }
   }
 
-  /* ---------- TYPE BODY ---------- */
-  function typeBody() {
-    if (bIndex < bodyText.length) {
-      text.textContent += bodyText.charAt(bIndex);
-      bIndex++;
-      setTimeout(typeBody, typingSpeedBody);
+  /* ---------- TYPE BODY LINE-WISE ---------- */
+  const bodyLines = bodyText.split("\n");
+  let lineIndex = 0;
+
+  function typeBodyLines() {
+    if (lineIndex < bodyLines.length) {
+      const line = bodyLines[lineIndex].trim();
+      if(line) text.innerHTML += line + "<br>";
+      lineIndex++;
+      setTimeout(typeBodyLines, 400); // delay between lines
     } else {
       setTimeout(triggerHeartScene, 2000);
     }
@@ -55,6 +57,10 @@ next birthday hum saath cake cut karenge.`;
   function triggerHeartScene() {
     if (sceneEnded) return;
     sceneEnded = true;
+
+    // Remove old text completely before heart scene
+    title.style.opacity = 0;
+    text.style.opacity = 0;
 
     heartScene.style.opacity = 1;
 
@@ -67,7 +73,7 @@ next birthday hum saath cake cut karenge.`;
       endText.style.opacity = 1;
     }, 4500);
 
-    // Screen stays paused here — final scene
+    // Final scene pause here
   }
 
   /* ---------- START ---------- */
