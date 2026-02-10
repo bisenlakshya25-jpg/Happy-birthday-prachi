@@ -1,18 +1,28 @@
 const app = document.getElementById("app");
 let currentScene = 1;
 const totalScenes = 6;
-const scenesCache = {}; // preloaded HTML
-const loadedScripts = {}; // track loaded JS
 
-/* ---------- PRELOAD SCENES ---------- */
+const scenesCache = {};      // HTML preload
+const loadedScripts = {};   // JS load tracking
+
+/* ---------- PRELOAD HTML + CSS ---------- */
 function preloadScenes() {
   for (let i = 1; i <= totalScenes; i++) {
+
+    // 🔹 Preload HTML
     fetch(`scenes/scene${i}.html`)
       .then(res => res.text())
       .then(html => {
         scenesCache[i] = html;
       })
-      .catch(err => console.error(`Scene ${i} preload failed:`, err));
+      .catch(() => {});
+
+    // 🔹 Preload CSS (NO apply, only cache)
+    const cssPreload = document.createElement("link");
+    cssPreload.rel = "preload";
+    cssPreload.as = "style";
+    cssPreload.href = `css/scene${i}.css`;
+    document.head.appendChild(cssPreload);
   }
 }
 preloadScenes();
@@ -20,7 +30,6 @@ preloadScenes();
 /* ---------- LOAD SCENE ---------- */
 function loadScene(sceneNumber) {
   if (!scenesCache[sceneNumber]) {
-    console.warn(`Scene ${sceneNumber} not preloaded yet, fetching...`);
     fetch(`scenes/scene${sceneNumber}.html`)
       .then(res => res.text())
       .then(html => {
@@ -34,47 +43,50 @@ function loadScene(sceneNumber) {
 
 /* ---------- RENDER SCENE ---------- */
 function renderScene(sceneNumber) {
-  // Fade-out old content
-  app.style.opacity = 0;
+  // Fade out
+  app.style.opacity = "0";
 
   setTimeout(() => {
-    // Replace HTML
+
+    /* ----- HTML ----- */
     app.innerHTML = scenesCache[sceneNumber];
 
-    // Remove old CSS
+    /* ----- REMOVE OLD CSS ----- */
     const oldCSS = document.querySelector("link[data-scene]");
     if (oldCSS) oldCSS.remove();
 
-    // Add new scene CSS
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = `css/scene${sceneNumber}.css`;
-    link.setAttribute("data-scene", "true");
-    document.head.appendChild(link);
+    /* ----- APPLY CURRENT SCENE CSS ONLY ----- */
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = `css/scene${sceneNumber}.css`;
+    css.setAttribute("data-scene", "true");
+    document.head.appendChild(css);
 
-    // Load scene JS only if not loaded before
+    /* ----- LOAD CURRENT SCENE JS ONLY ONCE ----- */
     if (!loadedScripts[sceneNumber]) {
       const script = document.createElement("script");
       script.src = `js/scene${sceneNumber}.js`;
       script.defer = true;
+      script.setAttribute("data-scene", sceneNumber);
       document.body.appendChild(script);
       loadedScripts[sceneNumber] = true;
     }
 
-    // Fade-in new content
+    // Fade in
     setTimeout(() => {
-      app.style.opacity = 1;
-    }, 50); // small delay to allow DOM render
-  }, 200); // fade-out duration
+      app.style.opacity = "1";
+    }, 60);
+
+  }, 200);
 }
 
-/* ---------- GO TO NEXT SCENE ---------- */
+/* ---------- NEXT SCENE ---------- */
 function goNextScene() {
-  currentScene++;
-  if (currentScene <= totalScenes) {
+  if (currentScene < totalScenes) {
+    currentScene++;
     loadScene(currentScene);
   }
 }
 
-/* ---------- INITIAL SCENE ---------- */
+/* ---------- START ---------- */
 loadScene(currentScene);
