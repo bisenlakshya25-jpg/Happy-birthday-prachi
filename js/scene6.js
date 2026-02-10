@@ -6,13 +6,7 @@
   const endText = document.getElementById("endText");
 
   const titleText = "Sorry mera bachcha";
-  const bodyText =
-`Iss baar mai aapke birthday me nahi hu,
-par maine koshish ki hai
-ki aapko meri presence feel ho.
-
-I promise…
-next birthday hum saath cake cut karenge.`;
+  const bodyText =`Iss baar mai aapke birthday me nahi hu, par maine koshish ki hai ki aapko meri presence feel ho. I promise next birthday hum saath cake cut karenge.`;
 
   let tIndex = 0;
   let bIndex = 0;
