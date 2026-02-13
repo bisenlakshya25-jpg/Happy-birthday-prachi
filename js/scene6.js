@@ -1,6 +1,6 @@
 const headingText = "Sorry Mera Bachcha";
 const messageText =
-  "Iss baar m aapke birthday me nahi hu, par maine koshish ki aapko meri presence feel ho. I promise bachcha next birthday apan sath cake cut karenge, aur hamesha karenge.";
+  "Iss baar m aapke birthday me nahi hu, par maine koshish ki aapko meri presence feel ho. And it was the last effort from my side. And I promise dubara aapko apni sakal aur harkato se pareshan nhi karunga. Bas bohot ho gya isse jyada m nhi handle kar skta. You know tumhe samjh nhi aayega kya mujhe hurt karta h kis liye m aisa ho rha aur mujhe ab explain karna bhi nhi h. Bachcha aapko jinta blame dalna h jitna bura banana h mere ko bana lena, m kabhi tumhare past ki tarha tumhe pareshan nhi karunga. I guess tum mere bina khush ho. Aur mujhme itni himmat nhi bachi beta ki itna sab handle karu m. M tumhe kuch nhi bol rha beta mujhe nhi pasand h kuch chize bas. Tum aage hamesha meri pyaari kahaniyon me rahogi.";
 
 const headingEl = document.getElementById("heading");
 const messageEl = document.getElementById("message");
